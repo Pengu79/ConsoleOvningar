@@ -14,12 +14,12 @@ namespace ConsoleOvningar
         {
             List<int> ints = new List<int>() { 1, 5, -5, 9, 78, 4, 1, 4, 5, 1 };
 
-            //PrintAList(ReturnOddNumbers(ints), "This is the oddnumbers"); 
-            //PrintAList(ReturnDistinctIntList(ints));
-            //FindHighestIntInList(ints);
-            //FindLowestIntInList(ints);
-            //GenerateLottoNumbers();
-            //PrintAList();
+            PrintAList(ReturnOddNumbers(ints), "This is the oddnumbers");
+            PrintAList(ReturnDistinctIntList(ints));
+            FindHighestIntInList(ints);
+            FindLowestIntInList(ints);
+            GenerateLottoNumbers();
+            
 
             ReplaceSwedishLetters();
         }
