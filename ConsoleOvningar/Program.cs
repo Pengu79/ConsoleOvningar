@@ -14,14 +14,14 @@ namespace ConsoleOvningar
         {
             List<int> ints = new List<int>() { 1, 5, -5, 9, 78, 4, 1, 4, 5, 1 };
 
-            PrintAList(ReturnOddNumbers(ints), "This is the oddnumbers");
-            PrintAList(ReturnDistinctIntList(ints));
-            FindHighestIntInList(ints);
+            //PrintAList(ReturnOddNumbers(ints), "This is the oddnumbers");
+            //PrintAList(ReturnDistinctIntList(ints));
+            //FindHighestIntInList(ints);
             FindLowestIntInList(ints);
-            GenerateLottoNumbers();
+            //GenerateLottoNumbers();
             
 
-            ReplaceSwedishLetters();
+            //ReplaceSwedishLetters();
         }
 
         private static void ReplaceSwedishLetters()
@@ -77,16 +77,21 @@ namespace ConsoleOvningar
 
         private static void FindLowestIntInList(List<int> ints)
         {
-            int lowest = ints[0];
-            foreach (var i in ints)
-            {
-                if (i < lowest)
-                {
-                    lowest = i;
-                }
 
-            }
-            Console.WriteLine($"Lowest number is {lowest}");
+            Console.WriteLine(ints.Aggregate((current, next) => current > next ? current : next));
+            //ints.Aggregate((current, next) => current > next ? current : next);
+
+
+            //int lowest = ints[0];
+            //foreach (var i in ints)
+            //{
+            //    if (i < lowest)
+            //    {
+            //        lowest = i;
+            //    }
+
+            //}
+            //Console.WriteLine($"Lowest number is {lowest}");
         }
 
         private static void FindHighestIntInList(List<int> ints)
