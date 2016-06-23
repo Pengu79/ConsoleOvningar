@@ -11,15 +11,26 @@ namespace Snowflake
        static List<Flake> flakes = new List<Flake>();
         static void Main(string[] args)
         {
-           
+            ConsoleKeyInfo userKey;
+            var itSnows = true;
             flakes.Add(new Flake());
-            while (true)
+            while (itSnows)
             {
+                if (Console.KeyAvailable)
+                {
+                    userKey = Console.ReadKey(true);
+                    switch (userKey.Key)
+                    {
+                        case ConsoleKey.Escape:
+                            itSnows=!itSnows;
+                            break;
+                    }
+                }
                 if (flakes.Count < 100)
                 {
                     flakes.Add(new Flake());
                 }
-               
+
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.SetCursorPosition(0, 22);
@@ -33,9 +44,21 @@ namespace Snowflake
                     Console.Write("O");
                     flake.MoveFlake();
                     CheckSnowDepth();
+                    CheckSideSnow(flake);
                 }
                 System.Threading.Thread.Sleep(100);
 
+            }
+        }
+
+        private static void CheckSideSnow(Flake flake)
+        {
+            for (int i = 0; i < flakes.Count; i++)
+            {
+                if (flakes[i].PosX==flake.PosX-1 && flakes[i].Depth)
+                {
+                    flakes.Where()
+                }
             }
         }
 
@@ -46,7 +69,7 @@ namespace Snowflake
             {
                 for (int j = 0; j < flakes.Count; j++)
                 {
-                    if (flakes[i].PosX==flakes[j].PosX && flakes[j].PosY==21 && flakes[i].Depth==flakes[j].Depth && flakes[i]!=flakes[j] && flakes[i].PosY>=5 )
+                    if (flakes[i].PosX==flakes[j].PosX && flakes[j].PosY==21 && flakes[i].Depth==flakes[j].Depth && flakes[i]!=flakes[j] && flakes[i].PosY>=9 )
                     {
                         flakes[i].Depth++;
                     }
