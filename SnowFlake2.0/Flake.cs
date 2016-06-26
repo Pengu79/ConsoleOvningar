@@ -1,45 +1,81 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace SnowFlake2._0
 {
-    public class Flake : IMovable, ISceneObject, IColidable
+    public class Flake : IMovable, ISceneObject, IColidable, IDrawable
     {
         public bool isMoving { get; set; }
         public int OldX { get; set; }
         public int OldY { get; set; }
         public int PosX { get; set; }
         public int PosY { get; set; }
-        public bool Colidable { get; set; }
+        
 
-        public Flake(int posX, int posY)
+        private CollisionDetector _collisionDetector;
+
+        public Flake(int posX, int posY, CollisionDetector collisionDetector)
         {
             isMoving = true;
-            Colidable = false;
             PosY = OldY = posY;
             PosX = OldX = posX;
-
+            _collisionDetector = collisionDetector;
         }
-        public void MoveObject(string direction)
+
+        public void MoveObject()
         {
-            if (PosY>=Console.WindowHeight-2)
+            if (!isMoving)
             {
-                isMoving = false;
-                Colidable = true;
+                return;
             }
-            if (isMoving && PosY < Console.WindowHeight)
+            if (CanMove(PosX, PosY + 1))
             {
                 OldX = PosX;
-                OldY = PosY;
-                switch (direction)
-                {
-                    case "down":
-                        PosY++;
-                        return;
-                }
+                OldY = PosY++;
+                ClearOld();
+            }
+            else if (CanMove(PosX - 1, PosY + 1))
+            {
+                OldY = PosY++;
+                OldX = PosX--;
+                ClearOld();
+            }
+            else if (CanMove(PosX + 1, PosY + 1))
+            {
+                OldY = PosY++;
+                OldX = PosX++;
+                ClearOld();
+            }
+            else
+            {
+                isMoving = false;
             }
         }
 
-      
+        private bool CanMove(int x, int y)
+        {
+
+            return !_collisionDetector.CheckCollision(x, y) && x >= 0 && x < 80;
+        }
+
+        private void ClearOld()
+        {
+            Console.SetCursorPosition(OldX, OldY);
+            Console.Write(" ");
+        }
+
+
+        public void Draw()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(PosX, PosY);
+            Console.Write("O");
+        }
+
+        public bool Collides(int x, int y)
+        {
+            return !isMoving && x == PosX && y == PosY;
+        }
     }
 
 

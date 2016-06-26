@@ -2,8 +2,8 @@
 {
     public interface ISceneObject
     {
-        int PosX { get; set; }
-        int PosY { get; set; }
+        //int PosX { get; set; }
+        //int PosY { get; set; }
         
     }
 }

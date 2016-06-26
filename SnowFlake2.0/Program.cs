@@ -1,79 +1,80 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SnowFlake2._0
 {
     class Program
     {
-       static List<ISceneObject> _sceneObjects = new List<ISceneObject>();
+        static List<ISceneObject> _sceneObjects = new List<ISceneObject>();
+        private static List<IGenerator> _generators = new List<IGenerator>();
+        private static List<IMovable> _movables = new List<IMovable>();
+        private static List<IDrawable> _drawables = new List<IDrawable>();
+        private static List<IColidable> _colidables = new List<IColidable>();
+        private static int _speed = 100;
+        private static CollisionDetector _collisionDetector;
         static void Main(string[] args)
         {
+            Initialize();
             var running = true;
-            
-            
+            var v = Stopwatch.StartNew();
+
             while (running)
             {
-                AddRandomFlakes();
-                DrawScene(_sceneObjects);
+                var startTime = v.ElapsedMilliseconds;
+                Generate();
+                Move();
+                Draw(_sceneObjects);
+                var elapsed = v.ElapsedMilliseconds - startTime;
+                if (elapsed < _speed)
+                    Thread.Sleep(TimeSpan.FromMilliseconds(_speed - elapsed));
             }
-            
-
         }
 
-        private static void AddRandomFlakes()
+        private static void Move()
+        {
+            foreach (var movable in _movables)
+            {
+                movable.MoveObject();
+            }
+        }
+        private static void Generate()
+        {
+            foreach (var generator in _generators)
+                foreach (var generateObject in generator.GenerateObjects())
+                {
+                    _sceneObjects.Add(generateObject);
+                    if (generateObject is IMovable)
+                        _movables.Add(generateObject as IMovable);
+                    if (generateObject is IDrawable)
+                        _drawables.Add(generateObject as IDrawable);
+                    if (generateObject is IColidable)
+                        _colidables.Add(generateObject as IColidable);
+                }
+        }
+        private static void Initialize()
+        {
+            _collisionDetector = new CollisionDetector(_colidables);
+            _generators.Add(new ObjectGenerator(_collisionDetector));
+        }
+
+        private static void Draw(List<ISceneObject> sceneObject)
         {
 
-            Random rnd = new Random();
-            if (_sceneObjects.Count<100)
-            {
-                Flake flake = new Flake(rnd.Next(Console.WindowWidth), 0);
-                _sceneObjects.Add(flake);
-            }
-            
+            foreach (var drawable in _drawables)
+                drawable.Draw();
         }
-
-        private static void DrawScene(List<ISceneObject> sceneObject )
-        {
-            if (sceneObject.Count<Console.WindowWidth)
-            {
-                CreateGround();
-            }
-
-            foreach (var flake in sceneObject.OfType<Flake>())
-            {
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(flake.OldX, flake.OldY);
-                Console.Write(" ");
-                Console.SetCursorPosition(flake.PosX, flake.PosY);
-                Console.Write("O");
-                flake.MoveObject(CheckCollision(flake));
-                System.Threading.Thread.Sleep(1);
-            }
-        }
-
         private static string CheckCollision(Flake flake)
         {
-            
-            return "down";
-        }
 
-        private static void CreateGround()
-        {
-            //for (int i = 0; i < Console.WindowWidth; i++)
-            //{
-            //    Grass ground= new Grass() {Colidable = true,PosX = i,PosY = Console.WindowHeight-1};
-            //    //_grass.Add(ground);
-            //    }
-            //foreach (var item in _grass)
-            //{
-            //    Console.SetCursorPosition(item.PosX, item.PosY);
-            //    Console.ForegroundColor = ConsoleColor.Green;
-            //    Console.Write("#");
-            //}
+            return "down";
         }
     }
 }

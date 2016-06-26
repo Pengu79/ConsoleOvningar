@@ -43,11 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Block.cs" />
+    <Compile Include="CollisionDetector.cs" />
     <Compile Include="Flake.cs" />
     <Compile Include="Grass.cs" />
+    <Compile Include="Ground.cs" />
     <Compile Include="IColidable.cs" />
+    <Compile Include="IDrawable.cs" />
+    <Compile Include="IGenerator.cs" />
     <Compile Include="IMovable.cs" />
     <Compile Include="ISceneObject.cs" />
+    <Compile Include="ObjectGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

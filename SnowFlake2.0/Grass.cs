@@ -1,11 +1,11 @@
 ﻿namespace SnowFlake2._0
 {
-    public class Grass:ISceneObject,IColidable
+    public class Grass:ISceneObject
     
 
 {
         public int PosX { get; set; }
         public int PosY { get; set; }
-        public bool Colidable { get; set; }
+    
 }
 }

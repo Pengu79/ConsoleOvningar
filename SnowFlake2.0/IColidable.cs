@@ -2,6 +2,6 @@
 {
     public interface IColidable
     {
-        bool Colidable { get; set; }
+        bool Collides(int x, int y);
     }
 }
