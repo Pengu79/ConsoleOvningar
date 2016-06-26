@@ -6,6 +6,6 @@
         int OldX { get; set; }
         int OldY { get; set; }
 
-        void MoveObject();
+        void MoveObject(string direction);
     }
 }

@@ -44,23 +44,14 @@ namespace Snowflake
                     Console.Write("O");
                     flake.MoveFlake();
                     CheckSnowDepth();
-                    CheckSideSnow(flake);
+                    
                 }
                 System.Threading.Thread.Sleep(100);
 
             }
         }
 
-        private static void CheckSideSnow(Flake flake)
-        {
-            for (int i = 0; i < flakes.Count; i++)
-            {
-                if (flakes[i].PosX==flake.PosX-1 && flakes[i].Depth)
-                {
-                    flakes.Where()
-                }
-            }
-        }
+        
 
         private static void CheckSnowDepth()
         {
