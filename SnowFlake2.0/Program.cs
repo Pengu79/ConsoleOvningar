@@ -42,6 +42,7 @@ namespace SnowFlake2._0
         {
             foreach (var movable in _movables)
             {
+                
                 movable.MoveObject();
             }
         }
@@ -61,6 +62,8 @@ namespace SnowFlake2._0
         }
         private static void Initialize()
         {
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.Clear();
             _collisionDetector = new CollisionDetector(_colidables);
             _generators.Add(new ObjectGenerator(_collisionDetector));
         }

@@ -46,6 +46,8 @@ namespace SnowFlake2._0
                 OldY = PosY++;
                 ClearOld();
             }
+            
+            
         }
         private bool CanMove(int x, int y)
         {

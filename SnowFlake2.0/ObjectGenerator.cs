@@ -66,15 +66,11 @@ namespace SnowFlake2._0
             {
                 for (int j = i; j <11-i; j++)
                 {
-                    yield return new Block(x + j, i, _collisionDetector) { Color = ConsoleColor.DarkBlue };
+                    yield return new Block(x + j, i, _collisionDetector) { Color = ConsoleColor.Black };
                 }
             }
             
 
-            //    yield return new Block(x,4,_collisionDetector) { Color = ConsoleColor.Red};
-            //    yield return new Block(x,3,_collisionDetector) { Color = ConsoleColor.Red};
-            //    yield return new Block(x+1,5,_collisionDetector) { Color = ConsoleColor.Red};
-            //    yield return new Block(x+2,5,_collisionDetector) { Color = ConsoleColor.Red};
         }
     }
 }
