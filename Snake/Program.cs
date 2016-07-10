@@ -5,49 +5,39 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SimpleInjector;
+using Snake.Services;
 
 namespace Snake
 {
     class Program
     {
-        private static IPlayer _player;
-        private static List<IGameObject> _gameObjects; 
+        private static Container container = new Container();
+
         static void Main(string[] args)
         {
-            int _speed = 100;
-            Initialize();
-            var v = Stopwatch.StartNew();
-            bool gameRunning = true;
-            while (gameRunning)
-            {
-
-                var startTime = v.ElapsedMilliseconds;
-                _player.ReadInput();
-                Move();
-                Draw();
-                var elapsed = v.ElapsedMilliseconds - startTime;
-                if (elapsed < _speed)
-                    Thread.Sleep(TimeSpan.FromMilliseconds(_speed - elapsed));
-            }
-        }
-
-        private static void Draw()
-        {
             
+            Initialize().Start(100);
+           
+            
+
         }
 
-        private static void Move()
-        {
-            foreach (var movable in _gameObjects.OfType<IMovable>())
-            {
-            movable.Move();
-            }
-        }
 
-        private static void Initialize()
+
+        private static GameEngine Initialize()
         {
-            _player=new Snake();
-            _gameObjects.Add(_player);
+            container.Register<IControllerService,ControllerService>(Lifestyle.Singleton);
+            container.Register<IGameObjectService, GameObjectService>(Lifestyle.Singleton);
+            container.Register<ICollisionDetector,CollisionDetector>(Lifestyle.Singleton);
+            var game = container.GetInstance<GameEngine>();
+            game.GameObjects.Add(container.GetInstance<Apple>());
+            game.GameObjects.Add(container.GetInstance<Snake>());
+            container.GetInstance<ICollisionDetector>().DataSource = game.GameObjects;
+            container.GetInstance<IGameObjectService>().DataSource = game.GameObjects;
+            return game;
+            //game.AddGameObject(container.GetInstance<Snake>());
+
         }
     }
 }
